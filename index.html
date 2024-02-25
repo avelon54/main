@@ -31,9 +31,32 @@
         });
 
         function analyzeIntervals(intervals) {
-            // Implement analysis logic here
-            // Example: Check if intervals are too consistent or too fast
-            // Return true if human-like, false if bot-like
+            if (intervals.length === 0) {
+                // If no intervals recorded, hard to determine, assume human
+                return true;
+            }
+        
+            let total = 0;
+            let tooFastCount = 0;
+        
+            intervals.forEach(interval => {
+                total += interval;
+                if (interval <= 100) {
+                    tooFastCount++;
+                }
+            });
+        
+            const averageInterval = total / intervals.length;
+            const fastTypingRatio = tooFastCount / intervals.length;
+        
+            // Check if the average interval is too fast, or if a significant portion of typing is too fast
+            if (averageInterval <= 100 || fastTypingRatio > 0.7) {
+                // Consistently too fast, likely a bot
+                return false;
+            }
+        
+            // Considered human-like typing
+            return true;
         }
     </script>
 </head>
