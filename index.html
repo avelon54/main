@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Captcha Test</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var inputField = document.getElementById('captchaInput');
+            var lastKeyPressTime = null;
+            var keyIntervals = [];
+
+            inputField.addEventListener('keydown', function(event) {
+                var currentTime = new Date().getTime();
+                
+                if (lastKeyPressTime) {
+                    var interval = currentTime - lastKeyPressTime;
+                    keyIntervals.push(interval);
+                }
+
+                lastKeyPressTime = currentTime;
+            });
+
+            document.getElementById('captchaForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                if (analyzeIntervals(keyIntervals)) {
+                    alert('Human detected');
+                    // Process the form
+                } else {
+                    alert('Unusual typing pattern detected');
+                }
+            });
+        });
+
+        function analyzeIntervals(intervals) {
+            // Implement analysis logic here
+            // Example: Check if intervals are too consistent or too fast
+            // Return true if human-like, false if bot-like
+        }
+    </script>
+</head>
+<body>
+    <form id="captchaForm">
+        <input type="text" id="captchaInput" placeholder="Type here" />
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
